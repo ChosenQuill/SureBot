@@ -1,0 +1,3 @@
+rootProject.name = 'SureBot'
+
+includeBuild('../SimpleCord')
