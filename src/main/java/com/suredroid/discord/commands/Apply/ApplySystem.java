@@ -29,10 +29,6 @@ public class ApplySystem { //extends OldCommandSystem{
 
     public static ArrayList<Long> ids = new ArrayList<>();
 
-    //String options;
-
-
-
     public static void begin(User userVal, String pos, String t) {
         if(ids.contains(userVal.getId())){
             userVal.sendMessage(DUtils.createEmbed("Already in an application.", "You are already completing an application, finish or stop your application to restart.",userVal.getName(),userVal.getAvatar()));
@@ -76,34 +72,34 @@ public class ApplySystem { //extends OldCommandSystem{
                         });
                     } catch (JsonParseException e){
                         DiscordBot.report(DUtils.createMessage("Old File","<@" + results.getUserId() + "> has an old user file. Skipping storage for now."));
-                    }
+                    } finally {
+                        System.out.println("part reached");
 
+                        user.sendMessage(
+                                "The next portion of the application is to **talk to other people and provide feedback on other's work while staying active on the server**. This is used to get info on how mature you are, how responsive you are, how active you are, as well as other information.\nIf you haven't gotten a response on the outcome of your application in a week, kindly contact ChosenQuill.\n" +
+                                        "**Thank you for your time!**");
+                        EmbedBuilder embed = new EmbedBuilder();
+                        int totalCount = 0, embedCount = 0;
+                        boolean continued = false;
+                        for (int i = 0; i < results.getQuestions().length; i++) {
+                            totalCount += results.getAnswers()[i].length() + results.getQuestions()[i].getQuestion().length();
+                            if (totalCount > 5000 || embedCount > 20) {
+                                send(embed, user, team, position, continued);
+                                embed = new EmbedBuilder();
+                                totalCount = results.getAnswers()[i].length();
+                                embedCount = 0;
+                                continued = true;
+                            }
 
-
-                    user.sendMessage(
-                            "The next portion of the application is to **talk to other people and provide feedback on other's work while staying active on the server**. This is used to get info on how mature you are, how responsive you are, how active you are, as well as other information.\nIf you haven't gotten a response on the outcome of your application in a week, kindly contact ChosenQuill.\n" +
-                                    "**Thank you for your time!**");
-                    EmbedBuilder embed = new EmbedBuilder();
-                    int totalCount = 0, embedCount = 0;
-                    boolean continued = false;
-                    for (int i = 0; i < results.getQuestions().length; i++) {
-                        totalCount += results.getAnswers()[i].length() + results.getQuestions()[i].getQuestion().length();
-                        if(totalCount > 5000 || embedCount > 20){
-                            send(embed, user, team, position, continued);
-                            embed = new EmbedBuilder();
-                            totalCount = results.getAnswers()[i].length();
-                            embedCount = 0;
-                            continued = true;
+                            boolean first = true;
+                            for (String answer : Splitter.fixedLength(1000).split(results.getAnswers()[i])) {
+                                embed.addField(first ? results.getQuestions()[i].getQuestion() : "Previous Cont.", answer);
+                                embedCount++;
+                                first = false;
+                            }
                         }
-
-                        boolean first = true;
-                        for (String answer : Splitter.fixedLength(1000).split(results.getAnswers()[i])) {
-                            embed.addField(first ? results.getQuestions()[i].getQuestion() : "Previous Cont.", answer);
-                            embedCount++;
-                            first = false;
-                        }
+                        send(embed, user, team, position, continued);
                     }
-                    send(embed, user, team, position, continued);
                 }
             });
         });
