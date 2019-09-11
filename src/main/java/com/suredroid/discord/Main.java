@@ -30,8 +30,8 @@ public class Main {
         if(args.length > 0 && args[0].equalsIgnoreCase("debug")) debug = true;
 
         String location;
-        if(debug) location = "C:\\Users\\rithv\\Desktop\\IntelliJ\\Discord Bots";
-        else location = "/opt/discord";
+        if(debug) location = "C:\\Users\\rithv\\Desktop\\IntelliJ\\DiscordBots\\";
+        else location = "/opt/discord/surebot";
         location +="/storage/";
 
         DiscordBot.setStoragePath(location);

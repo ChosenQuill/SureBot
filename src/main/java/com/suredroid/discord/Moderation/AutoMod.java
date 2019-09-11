@@ -59,7 +59,7 @@ public class AutoMod implements MessageCreateListener, MessageEditListener {
         ArrayList<String> badWords = filter.detect(input);
 
         if (badWords.size() > 0) {
-            String send = "EmbedMessage: " + input + "\n Bad Words: " + Arrays.toString(badWords.toArray());
+            String send = "EmbedMessage: " + input + "\n Bad Words: " + Arrays.toString(badWords.toArray()) + "\nChannel: " + message.getChannel() + (message.getServer().isPresent() ? ("\nServer: " + message.getServer().get()) : "");
             String serverId = message.getServer().isPresent() ? message.getServer().get().getIdAsString() : null;
             DiscordBot.report(DUtils.createMessage("Swear Word Blocked", send, message.getAuthor().getDiscriminatedName(), message.getAuthor().getAvatar()), serverId);
             message.getAuthor().asUser().ifPresent(user -> {
@@ -72,7 +72,7 @@ public class AutoMod implements MessageCreateListener, MessageEditListener {
         if (message.getMentionedUsers().size() > 5) {
             DUtils.sendMessage(DUtils.createEmbed("Do not mass mention.", "Mentioning 5+ people is not permitted, and repeated use can result in a ban.", message.getAuthor().getDiscriminatedName(), message.getAuthor().getAvatar()), message.getChannel());
             String serverId = message.getServer().isPresent() ? message.getServer().get().getIdAsString() : null;
-            DiscordBot.report(DUtils.createMessage("Mass Mention Report", "EmbedMessage: " + input), serverId);
+            DiscordBot.report(DUtils.createMessage("Mass Mention Report", "EmbedMessage: " + input + "User"), serverId);
         }
     }
 
