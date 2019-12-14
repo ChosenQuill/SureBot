@@ -11,6 +11,11 @@ jar {
     }
 }
 
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+}
+
 group 'com.suredroid.discord'
 version '1.0'
 description 'A private discord bot created by SureDroid.'
