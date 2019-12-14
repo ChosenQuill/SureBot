@@ -1,9 +1,24 @@
 language: java
+jdk: oraclejdk12
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_18bade7c6277_key -iv $encrypted_18bade7c6277_iv -in travis_id_rsa.enc -out travis_id_rsa -d
+
+install:
+  - cd $TRAVIS_BUILD_DIR
+  - cd ..
+  - git clone https://github.com/SureDroid/SimpleCord.git SimpleCord
+  - cd $TRAVIS_BUILD_DIR
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/travis/oraclejdk12/
+
+script:
+  - ./gradlew build --scan -s
