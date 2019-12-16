@@ -5,7 +5,7 @@ chmod 400 travis_id_rsa
 
 rsync -Ihvz -e "ssh -i ./travis_id_rsa" $TRAVIS_BUILD_DIR/build/libs/SureBot.jar auto@server.suredroid.com:/opt/discord/surebot/
 
-ssh auto@server.suredroid.com -i ./travis_id_rsa << EOF
+ssh auto@server.suredroid.com -i ./travis_id_rsa -T << EOF
   if screen -list | grep -q "discord"; then
     screen -X -S "discord" quit
   fi
