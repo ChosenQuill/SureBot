@@ -18,11 +18,15 @@ if (hasProperty('buildScan')) {
     }
 }
 
+shadowJar {
+    archiveFileName = 'SureBot.jar'
+}
+
 group 'com.suredroid.discord'
 version '1.0'
 description 'A private discord bot created by SureDroid.'
 
-sourceCompatibility = 1.12
+sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
