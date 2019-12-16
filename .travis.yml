@@ -1,9 +1,6 @@
 language: java
 jdk: oraclejdk11
 
-before_install:
-  - jdk_switcher use oraclejdk12
-
 install:
   - cd $TRAVIS_BUILD_DIR
   - cd ..
